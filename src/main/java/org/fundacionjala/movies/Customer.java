@@ -9,7 +9,6 @@ import java.util.List;
  * @autor Bruno Vasquez
  */
 class Customer {
-
     private static final String BREAK_LINE = "\n";
     public static final String TABULAR = "\t";
 
@@ -19,7 +18,7 @@ class Customer {
     /**
      * It is the constructor of customer.
      *
-     * @param name   an String to set the name of customer
+     * @param name an String to set the name of customer
      */
     public Customer(String name) {
         this.name = name;
