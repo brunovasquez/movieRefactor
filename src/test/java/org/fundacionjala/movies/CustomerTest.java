@@ -10,7 +10,13 @@ import static org.junit.Assert.assertEquals;
  */
 public class CustomerTest {
 
-    public static final int DELTA = 0;
+    private static final int DELTA = 0;
+    private static final String NAME = "Bruno";
+    private static final String BREAK_LINE = "\n";
+    private static final String TABULAR = "\t";
+    private static final String LITTLE_MOVIE_RELEASE = "Avengers";
+    private static final String LITTLE_MOVIE_REGULAR = "Pirates";
+    private static final String LITTLE_MOVIE_CHILDREN = "Micky";
     private Customer customer;
     private Movie movieRelease;
     private Movie movieRegular;
@@ -21,15 +27,11 @@ public class CustomerTest {
 
     @Before
     public void setUp() {
-        final String titleMovieRelease = "Avengers";
-        final String titleMovieRegular = "Pirates";
-        final String titleMovieChildren = "Micky";
-        final String name = "Bruno";
         final int daysRented = 5;
-        customer = new Customer(name);
-        movieRelease = new MovieRelease(titleMovieRelease);
-        movieRegular = new MovieRegular(titleMovieRegular);
-        movieChildren = new MovieChildren(titleMovieChildren);
+        customer = new Customer(NAME);
+        movieRelease = new MovieRelease(LITTLE_MOVIE_RELEASE);
+        movieRegular = new MovieRegular(LITTLE_MOVIE_REGULAR);
+        movieChildren = new MovieChildren(LITTLE_MOVIE_CHILDREN);
         rentalRelease = new Rental(movieRelease, daysRented);
         rentalRegular = new Rental(movieRegular, daysRented);
         rentalChildren = new Rental(movieChildren, daysRented);
@@ -105,6 +107,48 @@ public class CustomerTest {
         final double expectResult = 27.5;
         final double actualResult = customer.calculateTotalAmount();
         assertEquals(expectResult, actualResult, 0);
+    }
+
+    @Test
+    public void test_statement() {
+        customer.addRental(rentalRelease);
+        customer.addRental(rentalRegular);
+        customer.addRental(rentalChildren);
+
+        final double amountRelease = 15;
+        final double amountRegular = 6.5;
+        final double amountChildren = 6.0;
+        final double totalAmount = 27.5;
+        final int totalPoints = 4;
+        final StringBuilder expectResult = new StringBuilder();
+
+        expectResult.append("Rental Record for ");
+        expectResult.append(NAME);
+        expectResult.append(BREAK_LINE);
+        expectResult.append(TABULAR);
+        expectResult.append(LITTLE_MOVIE_RELEASE);
+        expectResult.append(TABULAR);
+        expectResult.append(amountRelease);
+        expectResult.append(BREAK_LINE);
+        expectResult.append(TABULAR);
+        expectResult.append(LITTLE_MOVIE_REGULAR);
+        expectResult.append(TABULAR);
+        expectResult.append(amountRegular);
+        expectResult.append(BREAK_LINE);
+        expectResult.append(TABULAR);
+        expectResult.append(LITTLE_MOVIE_CHILDREN);
+        expectResult.append(TABULAR);
+        expectResult.append(amountChildren);
+        expectResult.append(BREAK_LINE);
+        expectResult.append("Amount owed is ");
+        expectResult.append(totalAmount);
+        expectResult.append(BREAK_LINE);
+        expectResult.append("You earned ");
+        expectResult.append(totalPoints);
+        expectResult.append(" frequent renter points");
+
+        final String actualResult = customer.statement();
+        assertEquals(expectResult.toString(), actualResult);
     }
 
 }
